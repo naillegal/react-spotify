@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import GENDER_CHOICES, Customer
+from .models import GENDER_CHOICES, Customer, Artist
 from rest_framework.authtoken.models import Token
 
 
 class RegisterSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=50,source='user.first_name')
     last_name = serializers.CharField(max_length=50,source='user.last_name')
     username = serializers.CharField(max_length=30,source='user.username')
@@ -36,8 +37,16 @@ class CustomerInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'username', 'email', 'birth_date', 'gender', 'token']
+        fields = ['id', 'first_name', 'last_name', 'username', 'email', 'birth_date', 'gender', 'token']
 
     def get_token(self, customer):
         token, created = Token.objects.get_or_create(user=customer.user)
         return token.key
+    
+
+class ArtistSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    class Meta:
+        model = Artist
+        fields = ['id', 'first_name', 'last_name', 'image', 'cover', 'verified']
