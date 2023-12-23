@@ -5,11 +5,11 @@ from .serializers import ( PlaylistSerializer, SongSerializer, SongDetailSeriali
 # Create your views here.
 
 class PlaylistAV(ListCreateAPIView):
-    queryset = Playlist.objects.all()
+    queryset = Playlist.objects.filter(hide=False)
     serializer_class = PlaylistSerializer
 
 class PlaylistDetailAV(RetrieveUpdateDestroyAPIView):
-    queryset = Playlist.objects.all()
+    queryset = Playlist.objects.filter(hide=False)
     serializer_class = PlaylistSerializer
 
 class SongListAV(ListCreateAPIView):

@@ -12,11 +12,12 @@ class Genre(models.Model):
 
 class Playlist(models.Model):
     title = models.CharField(max_length=50)
-    author = models.ForeignKey('user.Customer',on_delete=models.CASCADE)
+    author = models.ForeignKey('user.Customer',on_delete=models.CASCADE, related_name='playlists')
     image = models.ImageField(upload_to='playlists/images/')
     featured = models.BooleanField(default=False)
     updated = models.DateField(auto_now=True)
     created = models.DateField(auto_now_add=True)
+    hide = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

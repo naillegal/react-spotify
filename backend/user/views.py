@@ -6,12 +6,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from rest_framework.generics import ( ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView )
-from .serializers import ( RegisterSerializer, CustomerInfoSerializer )
-from song.serializers import ( PlaylistSerializer, SongSerializer, ArtistSerializer )
+from rest_framework.generics import ( ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView )
+from .serializers import ( RegisterSerializer, CustomerInfoSerializer,  ArtistDetailSerializer, ArtistSerializer, CustomerProfileSerializer  )
+from song.serializers import ( PlaylistSerializer, SongSerializer )
 from song.models import ( Playlist, Song )
 from .models import Artist
 # Create your views here.
+
+
+class CustomerProfileDetailAV(RetrieveAPIView):
+    def get_object(self):
+        return self.request.user.customer
+    serializer_class = CustomerProfileSerializer
+    permission_classes = [IsAuthenticated]
+
 
 
 class LikedPlaylistAV(ListAPIView):
@@ -31,7 +39,7 @@ class LikedSongListAV(ListAPIView):
 
 class FollowingArtistListAV(ListAPIView):
     def get_queryset(self):
-        return self.request.customer.followed_artists.all()
+        return self.request.user.customer.followed_artists.all()
     serializer_class = ArtistSerializer
     permission_classes = [IsAuthenticated]
 
@@ -42,11 +50,17 @@ class ArtistListAV(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class ArtistDetailAV(RetrieveAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def follow_artist(request, pk):
     artist = get_object_or_404(Artist, pk=pk)
-    request.customer.followed_artists.add(artist)
+    request.user.customer.followed_artists.add(artist)
     return Response(status=status.HTTP_202_ACCEPTED)
 
 
@@ -54,7 +68,7 @@ def follow_artist(request, pk):
 @permission_classes([IsAuthenticated])
 def unfollow_artist(request, pk):
     artist = get_object_or_404(Artist, pk=pk)
-    request.customer.followed_artists.remove(artist)
+    request.user.customer.followed_artists.remove(artist)
     return Response(status=status.HTTP_202_ACCEPTED)
 
 
