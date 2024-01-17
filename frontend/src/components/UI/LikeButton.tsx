@@ -4,12 +4,12 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export interface ILikeButtonProps {
     styles?: object;
-    classname?: string;
+    className?: string;
 }
 
 export default function LikeButton(props: ILikeButtonProps) {
   return (
-    <div className={props.classname}>
+    <div className={props.className}>
       <IconButton aria-label="favorite" size="large">
         <FavoriteBorderIcon
           fontSize="inherit"

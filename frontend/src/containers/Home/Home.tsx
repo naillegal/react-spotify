@@ -11,11 +11,6 @@ export default function Home(props: IHomeProps) {
         <div className="text-white font-bold text-2xl">Good Afternoon</div>
         <div className="pt-5 grid grid-cols-3 gap-4">
           <HorizontalPlaylist />
-          <HorizontalPlaylist />
-          <HorizontalPlaylist />
-          <HorizontalPlaylist />
-          <HorizontalPlaylist />
-          <HorizontalPlaylist />
         </div>
       </div>
       <div className="pt-10">
