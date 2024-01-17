@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from user.serializers import CustomerInfoSerializer
+from user.serializers import CustomerInfoSerializer, ArtistSerializer
 from .models import ( Playlist, Song, Genre )
 
 
@@ -26,8 +26,12 @@ class SongSerializer(serializers.ModelSerializer):
 
 
 class SongDetailSerializer(serializers.ModelSerializer):
+    artist_title = ArtistSerializer(many=True, source='artists', read_only=True)
     class Meta:
         model = Song
         fields = '__all__'
+        extra_kwargs = {
+            'artists':{'write_only':True}
+        }
 
 

@@ -47,13 +47,13 @@ class FollowingArtistListAV(ListAPIView):
 class ArtistListAV(ListAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class ArtistDetailAV(RetrieveAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 @api_view(['POST'])
@@ -105,7 +105,7 @@ def unlike_playlist(request, pk):
 
 
 @api_view(['POST'])
-@throttle_classes([AnonRateThrottle, UserRateThrottle])
+# @throttle_classes([AnonRateThrottle, UserRateThrottle])
 def register_view(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
@@ -114,7 +114,7 @@ def register_view(request):
 
 
 @api_view(['POST'])
-@throttle_classes([AnonRateThrottle, UserRateThrottle])
+# @throttle_classes([AnonRateThrottle, UserRateThrottle])
 def login_view(request):
     user_info = request.data.get('user_info')
     password = request.data.get('password')
@@ -126,5 +126,5 @@ def login_view(request):
     if user and user.check_password(password):
         serializer = CustomerInfoSerializer(instance=user.customer)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        
     return Response(data={'message': 'User info or password is incorrect!'}, status=status.HTTP_400_BAD_REQUEST)

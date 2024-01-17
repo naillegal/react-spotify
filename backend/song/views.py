@@ -13,9 +13,9 @@ class PlaylistDetailAV(RetrieveUpdateDestroyAPIView):
     serializer_class = PlaylistSerializer
 
 class SongListAV(ListCreateAPIView):
-    queryset = Song.objects.all()
+    queryset = Song.objects.all().order_by('id')
     serializer_class = SongSerializer
 
 class SongDetailAV(RetrieveUpdateDestroyAPIView):
-    queryset = Song.objects.all()
+    queryset = Song.objects.all().order_by('id')    
     serializer_class = SongDetailSerializer

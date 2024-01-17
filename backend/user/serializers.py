@@ -58,18 +58,20 @@ class CustomerInfoSerializer(serializers.ModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
+    username = serializers.CharField(source='user.username')
     class Meta:
         model = Artist
-        fields = ['id', 'first_name', 'last_name', 'image', 'cover', 'verified']
+        fields = ['id', 'username', 'first_name', 'last_name', 'image', 'cover', 'verified']
 
 
 class ArtistDetailSerializer(serializers.ModelSerializer):
     songs = SongSerializerSummary(many=True)
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
+    username = serializers.CharField(source='user.username')
     class Meta:
         model = Artist
-        fields = ['id', 'first_name', 'last_name', 'image', 'cover', 'verified', 'songs']
+        fields = ['id', 'username', 'first_name', 'last_name', 'image', 'cover', 'verified', 'songs']
 
 
 class CustomerProfileSerializer(serializers.ModelSerializer):
